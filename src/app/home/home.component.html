@@ -1,0 +1,73 @@
+<div class="row welcome-row">
+    <div class="col-xs-12 text-center">
+        <h3 *ngIf="authService.user | async">Welcome to JS Library Search v1.0!</h3>
+        <p>Feel free to search for all the popular javascript/jquery libraries.</p>
+        <p>In order to save your list to check for later, please <a routerLink="/login">Login</a> or <a routerLink="/login">Register</a></p>
+    </div>
+</div>
+<div class="row search-row">
+    <div class="col-xs-12 col-md-6">
+      <h4 class="api-title">Search</h4>
+       <h4>Enter what you are seeking in the box below</h4>
+       <p class="grayed">Hint: jQuery, react, animate.js, angular, weather.js, etc..</p>
+        <input (keyup)="searchTerm$.next($event.target.value)" class="form-control search-box" type="text" placeholder=" jQuery, react, animate.js, angular, weather.js, etc..">
+        <ul *ngIf="results">
+         <h3 class="results-title">Results: </h3>
+          <li class="main-results" *ngFor="let result of results | slice:0:10">
+            <a href="{{ result.latest }}" target="_blank">
+              {{ result.name }}
+            </a>
+            <br>
+            <textarea cols="30" rows="10" name="apiurl" class="api-txt">{{ result.latest }}</textarea>
+            <textarea name="apiurl" class="api-script-txt"><script src="{{ result.latest }}"></script></textarea>
+            <br>
+            <br>
+            <button class="btn-script" (click)="copyText($event.target)">Copy</button>
+            <br>
+            <button class="btn-script" 
+            (click)="copyWithScript($event.target)"
+            >Copy with Script</button>
+            <br>
+            <button class="btn-script" 
+            (click)="addToList($event.target)"
+            >Add to List</button>
+            
+          </li>
+          <br/>
+          <button (click)="showMore()" class="full-list">See Full List</button>
+          <br>
+          <br>
+          <li 
+        (scrolled)="onScroll()" class="display-none main-results more-list" *ngFor="let result of results | slice:10:100">
+            <a href="{{ result.latest }}" target="_blank">
+              {{ result.name }}
+            </a>
+            <br>
+            <textarea cols="30" rows="10" name="apiurl" class="api-txt">{{ result.latest }}</textarea>
+            <textarea name="apiurl" class="api-script-txt"><script src="{{ result.latest }}"></script></textarea>
+            <br>
+            <br>
+            <button class="btn-script" (click)="copyText($event.target)">Copy</button>
+            <br>
+            <button class="btn-script" 
+            (click)="copyWithScript($event.target)"
+            >Copy with Script</button>
+            
+          </li>
+        </ul>
+<!--        <p class="search-results"></p>-->
+    </div>
+    <div class="col-xs-12 col-md-6">
+       <h4 class="api-title">My API List:</h4>
+       <p>You must be logged in to save, add or delete from your list.</p>
+        <ul class="list-container">
+          <li class="my-list" *ngFor="let todo of (todos$ | async)" [class.done]="todo.done">
+            {{ todo.message }}
+            <button 
+            (click)="this.myApiList.deleteTodo(this.todo)"
+            class="btn btn-danger">Delete</button>
+          </li>
+        </ul>
+<!--        <p class="search-results"></p>-->
+    </div>
+</div>

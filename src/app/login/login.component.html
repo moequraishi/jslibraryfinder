@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-md-offset-3 col-md-6">
+        <h4>In order to create your own API Library list, you need to register or log in.</h4>
+       <h3 class="title-login">Login</h3>
+       <h4 class="login-error"></h4>
+        <form (ngSubmit)="login()">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input [(ngModel)]="email" class="form-control" type="email" id="email" name="email" ngModel>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input [(ngModel)]="password" class="form-control" type="password" id="password" name="password" ngModel>
+            </div>
+            <button (ngSubmit)="login()" class="btn btn-primary" type="submit" [disabled]="!email || !password">Login</button>
+        </form>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="text-center">OR</h3>
+    </div>
+</div>
+<br>
+<div class="row">
+     <app-signup></app-signup>
+</div>
+   
+
+   

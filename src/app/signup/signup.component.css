@@ -1,0 +1,16 @@
+/*
+.sign-up {
+    display: none;
+}
+*/
+.title-register {
+	background: #00609c;
+	padding: 20px;
+	color: #fff;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: 700;
+}
+.sign-up-col {
+    margin-bottom: 50px;
+}
