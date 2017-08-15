@@ -1,24 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import * as $ from 'jquery';
 import { SearchService } from './search.service';
 import { Subject } from 'rxjs/Subject';
 import { AuthService } from '../auth.service';
-import { InfiniteScrollModule } from 'angular2-infinite-scroll';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { TodoComponent } from '../home/todo';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition
+} from '@angular/animations';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css'],
     providers: [SearchService, AuthService, TodoComponent]
+//    animations: [
+//      trigger('heroState', [
+//        state('inactive', style({
+//          backgroundColor: '#eee',
+//          transform: 'scale(1)'
+//        })),
+//        state('active',   style({
+//          backgroundColor: '#cfd8dc',
+//          transform: 'scale(1.1)'
+//        })),
+//        transition('inactive => active', animate('100ms ease-in')),
+//        transition('active => inactive', animate('100ms ease-out'))
+//      ])
+//    ]
 })
 export class HomeComponent {
     todos$: FirebaseListObservable<any[]>;
     items: FirebaseListObservable<any[]>;
-    
+    resText: any;
+
     finalText: string = $(this).siblings('.api-txt').text();
 //    finalText: string;
 
@@ -42,6 +63,7 @@ export class HomeComponent {
             }
         });
         this.todos$ = this.af.list('/api-list');
+        this.resText = $(this).siblings('.api-txt').text();
     }
 
     sendData(api: any) {
@@ -51,9 +73,9 @@ export class HomeComponent {
         console.log(finalText);
     }
 
-    addToList(elements: string) {
-        const currentApiText = $(elements).siblings('.api-txt').select();
-        const resText = $(elements).siblings('.api-txt').text();
+    addToList(element: string) {
+        const currentApiText = $(element).siblings('.api-txt').select();
+        const resText = $(element).siblings('.api-txt').text();
         const finalText = String(resText);
         console.log(finalText);
         this.sendData(finalText);
@@ -61,15 +83,27 @@ export class HomeComponent {
 
     copyText(el: string) {
         const currentApiText = $(el).siblings('.api-txt').select();
-        currentApiText;
         document.execCommand('copy');
     }
 
     copyWithScript(el: string) {
         const currentScriptApitText = $(el).siblings('.api-script-txt').select();
-        currentScriptApitText
         document.execCommand('copy');
     }
+
+    copyMyListText(el: string) {
+        $(el).siblings('.success-txt').show();
+        const currentApiText = $(el).siblings('#my-list').select();
+        document.execCommand('copy');
+        $(el).siblings('.success-txt').html('Successfully Copied!').fadeOut(1500);
+        $('#my-list').animate({backgroundColor: '#e74c3c'}, 'slow');
+    }
+
+    deleteTodo(todo: any): void {
+        this.af.object('/api-list/' + todo.$key).remove();
+
+        $(todo).find('.error-txt').html('Item has been Deleted!').fadeOut(1500);
+      }
 
     showMore() {
         $('.more-list').removeClass('display-none');

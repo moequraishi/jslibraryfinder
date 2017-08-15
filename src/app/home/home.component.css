@@ -102,7 +102,18 @@ ul {
     font-weight: 700;
     font-size: 18px;
 }
+#my-list {
+    width: 100%;
+    height: 50px;
+    border: 2px solid #dadada;
+}
 .btn-danger {
-    float: right;
     margin-top: 20px;
+}
+.delete-btn {
+    width: 100%;
+}
+.success-txt {
+    text-align: center;
+    color: green;
 }

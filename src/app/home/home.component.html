@@ -22,15 +22,18 @@
             <textarea name="apiurl" class="api-script-txt"><script src="{{ result.latest }}"></script></textarea>
             <br>
             <br>
-            <button class="btn-script" (click)="copyText($event.target)">Copy</button>
+            <button class="btn-script" (click)="copyText($event.target)">
+                Copy
+            </button>
             <br>
             <button class="btn-script" 
-            (click)="copyWithScript($event.target)"
-            >Copy with Script</button>
+            (click)="copyWithScript($event.target)">
+                Copy with Script
+            </button>
             <br>
-            <button class="btn-script" 
-            (click)="addToList($event.target)"
-            >Add to List</button>
+            <button class="btn-script" (click)="addToList($event.target)">
+                Add to List
+            </button>
             
           </li>
           <br/>
@@ -58,14 +61,18 @@
 <!--        <p class="search-results"></p>-->
     </div>
     <div class="col-xs-12 col-md-6">
-       <h4 class="api-title">My API List:</h4>
+       <h4 class="api-title">My List</h4>
        <p>You must be logged in to save, add or delete from your list.</p>
         <ul class="list-container">
           <li class="my-list" *ngFor="let todo of (todos$ | async)" [class.done]="todo.done">
-            {{ todo.message }}
-            <button 
-            (click)="this.myApiList.deleteTodo(this.todo)"
-            class="btn btn-danger">Delete</button>
+            <textarea name="my-list" id="my-list" cols="30" rows="10">{{ todo.message }}</textarea>
+            <p class="success-txt error-text"></p>
+            <button (click)="copyMyListText($event.target)" class="btn btn-success delete-btn">
+                Copy
+            </button>
+            <button (click)="this.myApiList.deleteTodo(this.todo)" class="btn btn-danger delete-btn">
+                Delete
+            </button>
           </li>
         </ul>
 <!--        <p class="search-results"></p>-->
